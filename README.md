@@ -1,4 +1,7 @@
 # CubChase
+
+Contact e-mail: mocki1997@gmail.com
+
 Python project for faculty subject.
 
 

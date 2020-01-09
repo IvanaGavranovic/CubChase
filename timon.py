@@ -59,5 +59,5 @@ class Timon(QLabel):
             self.setPixmap(QPixmap("player.png").transformed(trans))
             self.update()
 
-    def timerEvent(self, a0: 'QTimerEvent'):
-        # logika
+ #   def timerEvent(self, a0: 'QTimerEvent'):
+ # logika

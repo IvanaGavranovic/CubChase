@@ -1,63 +1,79 @@
 from PyQt5.QtCore import pyqtSignal, QBasicTimer
-from PyQt5.QtGui import QPixmap, QTransform
-from PyQt5.QtWidgets import QLabel, QGraphicsScene
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtWidgets import QLabel
+from random import randint
+import time
+
+from board import Board
 
 class Timon(QLabel):
+    Width = 40
+    Height = 40
+    X = 0
+    Y = 0
+    CanMove = True
+    Picture = ""
+    Speed = 0.5
+    Move = pyqtSignal()
 
-    def __init__(self, h, w, iconWidth):
-        super().__init__()
-        self.setPixmap(QPixmap("player.png")) # slika timona
-        self.step = 10
-        self.win_h = h
-        self.win_w = w
-        self.setStyleSheet("background:white;color:white;")
-        self.iconWidth = iconWidth
+    def __init__(self, parent, x, y, picture):
+        super().__init__(parent)
+
+        self.initTimon(self, parent, x, y, picture)
+
+    def initTimon(self, parent, x, y, picture):
+        self.resize(320,240)
+        self.X = x
+        self.Y = y
+        self.Picture = picture
+        self.Move.connect(self.movePumba)
+        PixmapTimon = QPixmap(picture)
+        PixmapResizeTimon = PixmapTimon.scaled(self.Width, self.Height)
+        self.setPixmap(PixmapResizeTimon)
         self.timer = QBasicTimer()
-        self.timer.start(30, self)
-        self.direction = 'up'
+        self.timer.start(20, self)
+        self.move(x,y)
 
-    def initialize(self):
-        self.move(self.win_w/2, self.win_h-2*self.iconWidth)
+    def updatePosition(self, x, y):
+        self.X = x
+        self.Y = y
+        PixmapTimon = QPixmap(self.Picture)
+        PixmapResizeTimon = PixmapTimon.scaled(self.Width, self.Height)
+        self.setPixmap(PixmapResizeTimon)
+        self.move(x, y)
 
-    def move_up(self):
-        y = self.geometry().y()
-        self.direction = 'up'
-        if y - self.step > -self.iconWidth:
-            self.move(self.geometry().x(), self.geometry().y() - self.step)
-            trans = QTransform()
-            trans.rotate(0)
-            self.setPixmap(QPixmap("player.png").transformed(trans))
-            self.update()
+    def changePosition(self):
+        while True:
+            p1 = randint(1,4)
+            p2 = randint(1,15)
 
-    def move_down(self):
-        y = self.geometry().y()
-        self.direction = 'down'
-        if y + self.step < self.win_h - 2*self.iconWidth:
-            self.move(self.geometry().x(), self.geometry().y() + self.step)
-            trans = QTransform()
-            trans.rotate(-180)
-            self.setPixmap(QPixmap("player.png").transformed(trans))
-            self.update()
+            if p1 % 4 == 0:
+                for x in range(p2):
+                    #if (self.X - 40, self.Y) not in board.Board.
+                        self.X = self.X-40
+                        time.sleep(self.Speed)
+            if p1 % 4 == 1:
+                for x in range(p2):
+                    # if (self.X - 40, self.Y) not in board.Board.
+                    self.X = self.X + 40
+                    time.sleep(self.Speed)
+            if p1 % 4 == 2:
+                for x in range(p2):
+                    # if (self.X - 40, self.Y) not in board.Board.
+                    self.Y = self.Y - 40
+                    time.sleep(self.Speed)
+            if p1 % 4 == 3:
+                for x in range(p2):
+                    # if (self.X - 40, self.Y) not in board.Board.
+                    self.Y = self.Y + 40
+                    time.sleep(self.Speed)
 
-    def move_left(self):
-        x = self.geometry().x()
-        self.direction = 'left'
-        if x - self.step > 0 - self.iconWidth:
-            self.move(self.geometry().x() - self.step, self.geometry().y())
-            trans = QTransform()
-            trans.rotate(-90)
-            self.setPixmap(QPixmap("player.png").transformed(trans))
-            self.update()
+    def moveTimon(self):
+        self.move(self.X, self.Y)
 
-    def move_right(self):
-        x = self.geometry().x()
-        self.direction = 'right'
-        if x + self.step < self.win_w - 2*self.iconWidth:
-            self.move(self.geometry().x() + self.step, self.geometry().y())
-            trans = QTransform()
-            trans.rotate(90)
-            self.setPixmap(QPixmap("player.png").transformed(trans))
-            self.update()
+    def timerEvent(self, event):
+        self.Move.emit()
 
- #   def timerEvent(self, a0: 'QTimerEvent'):
- # logika
+
+
+

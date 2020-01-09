@@ -3,18 +3,20 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 import sys
 
+from timon import Timon
+
 
 class Board(QGraphicsView):
 
     def __init__(self):
         super().__init__()
-        self.scene = QGraphicsScene(0,0,320,240)
+        self.scene = QGraphicsScene(0,0,840,640)
         self.scene.setBackgroundBrush(Qt.white)
         self.setScene(self.scene)
         self.setWindowTitle("Cub Chase 1.0")
         f = open("map.txt","r")
-        height = 6
-        width = 8
+        height = 16
+        width = 21
         size = 40
         brownColor = QColor()
         brownColor.setRgb(89,60,31)
@@ -42,10 +44,7 @@ class Board(QGraphicsView):
                 else:
                     self.fields[x][y].setBrush(Qt.yellow)
             y = 0
-        #self.fields[1][1].setBrush(QBrush(QPixmap("simba.png")));
+        self.fields[1][1].setBrush(QBrush(QPixmap("imgTimon.png")))
         self.show()
+        self.timon = Timon(self, 8, 6, "imgTimon.png")
 
-
-app = QApplication([])
-b = Board()
-sys.exit(app.exec_())

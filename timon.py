@@ -1,10 +1,11 @@
 from PyQt5.QtCore import pyqtSignal, QBasicTimer
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QBrush
 from PyQt5.QtWidgets import QLabel
 from random import randint
 import time
 
-from board import Board
+import board
+
 
 class Timon(QLabel):
     Width = 40
@@ -19,27 +20,27 @@ class Timon(QLabel):
     def __init__(self, parent, x, y, picture):
         super().__init__(parent)
 
-        self.initTimon(self, parent, x, y, picture)
+        self.initTimon( parent, x, y, picture)
 
     def initTimon(self, parent, x, y, picture):
-        self.resize(320,240)
+        self.resize(40,40)
         self.X = x
         self.Y = y
         self.Picture = picture
-        self.Move.connect(self.movePumba)
+        self.Move.connect(self.moveTimon)
         PixmapTimon = QPixmap(picture)
         PixmapResizeTimon = PixmapTimon.scaled(self.Width, self.Height)
         self.setPixmap(PixmapResizeTimon)
         self.timer = QBasicTimer()
         self.timer.start(20, self)
         self.move(x,y)
+        board.Board.fields[1][2].setBrush(QBrush(QPixmap("imgTimon.png")))
+
+        print(picture)
 
     def updatePosition(self, x, y):
         self.X = x
         self.Y = y
-        PixmapTimon = QPixmap(self.Picture)
-        PixmapResizeTimon = PixmapTimon.scaled(self.Width, self.Height)
-        self.setPixmap(PixmapResizeTimon)
         self.move(x, y)
 
     def changePosition(self):

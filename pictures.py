@@ -1,0 +1,8 @@
+SIMBA_GREEN = "../images/simba.png"
+SIMBA_YELLOW = "../images/simba.png"
+NALA_GREEN = "../images/nala.png"
+NALA_YELLOW = "../images/nala.png"
+TIMON_GREEN = "../images/timon.png"
+TIMON_YELLOW = "../images/timon.png"
+PUMBA_GREEN = "../images/pumba.png"
+PUMBA_YELLOW = "../images/pumba.png"

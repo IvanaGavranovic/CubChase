@@ -45,6 +45,8 @@ class Board(QGraphicsView):
                 self.scene.addItem(self.fields[x][y])
                 self.map_to_field(x, y)
             y = 0
+        # self.fields[1][1].set_image(TIMON_YELLOW)
+        # self.fields[1][19].set_image(PUMBA_YELLOW)
 
     def set_field(self, height: int, width: int, image: str = None):
         if self.check_board_range(height,width) is False:
@@ -77,7 +79,7 @@ class Field(QGraphicsRectItem):
     image_path = None
 
     def __init__(self):
-        super().__init__(0, 0, FIELD_SIZE, FIELD_SIZE)
+        super().__init__(0,0,FIELD_SIZE,FIELD_SIZE)
         self.color = QColor()
         self.color.setNamedColor(WHITE)
         self.setBrush(self.color)
@@ -95,7 +97,9 @@ class Field(QGraphicsRectItem):
         if image in {SIMBA_GREEN, SIMBA_YELLOW, NALA_GREEN, NALA_YELLOW,
                      PUMBA_GREEN, PUMBA_YELLOW, TIMON_GREEN, TIMON_YELLOW}:
             self.image_path = image
-            self.setBrush(QBrush(QPixmap(self.image_path)))
+            q = QBrush()
+            q.setTextureImage(QImage(self.image_path))
+            self.setBrush(q)
 
     def get_image(self):
         return self.image_path

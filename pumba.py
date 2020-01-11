@@ -2,74 +2,84 @@ from PyQt5.QtCore import pyqtSignal, QBasicTimer
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QLabel
 from random import randint
+from pictures import *
+from colors import *
 import time
-
 from board import Board
 
+
 class Pumba(QLabel):
-    Width = 40
-    Height = 40
     X = 0
     Y = 0
-    CanMove = True
     Picture = ""
-    Speed = 0.5
-    Move = pyqtSignal()
+    Speed = 0.3
 
-    def __init__(self, parent, x, y, picture):
-        super().__init__(parent)
+    def __init__(self, x, y, picture, board):
+        super().__init__()
+        self.board = board
+        self.initPumba(x, y, picture)
 
-        self.initPumba(self, parent, x, y, picture)
-
-    def initPumba(self, parent, x, y, picture):
-        self.resize(320,240)
+    def initPumba(self, x, y, picture):
         self.X = x
         self.Y = y
         self.Picture = picture
-        self.Move.connect(self.movePumba)
-        PixmapPumba = QPixmap(picture)
-        PixmapResizePumba = PixmapPumba.scaled(self.Width, self.Height)
-        self.setPixmap(PixmapResizePumba)
-        self.timer = QBasicTimer()
-        self.timer.start(20, self)
-        self.move(x,y)
+        #self.timer = QBasicTimer()
+        #self.timer.start(20, self)
 
-    def updatePosition(self, x, y):
-        self.X = x
-        self.Y = y
-        PixmapPumba = QPixmap(self.Picture)
-        PixmapResizePumba = PixmapPumba.scaled(self.Width, self.Height)
-        self.setPixmap(PixmapResizePumba)
-        self.move(x, y)
-
-    def changePosition(self):
+    def changePositionPumba(self):
         while True:
             p1 = randint(1,4)
-            p2 = randint(1,15)
+            p2 = randint(1,14)
 
             if p1 % 4 == 0:
                 for x in range(p2):
-                    #if (self.X - 40, self.Y) not in board.Board.
-                        self.X = self.X-40
+                    if self.X - 1 < 0:
+                        break
+                    next_field = self.board.get_field(self.Y, self.X - 1)
+                    if next_field.get_color() != BROWN:
+                        curr_field = self.board.get_field(self.Y, self.X)
+                        self.board.set_field(self.Y, self.X)
+                        self.board.set_field(self.Y, self.X - 1, self.Picture)
+                        self.X = self.X - 1
                         time.sleep(self.Speed)
+                    else:
+                        break
             if p1 % 4 == 1:
                 for x in range(p2):
-                    # if (self.X - 40, self.Y) not in board.Board.
-                    self.X = self.X + 40
-                    time.sleep(self.Speed)
+                    if self.X + 1 > 20:
+                        break
+                    next_field = self.board.get_field(self.Y, self.X + 1)
+                    if next_field.get_color() != BROWN:
+                        curr_field = self.board.get_field(self.Y, self.X)
+                        self.board.set_field(self.Y, self.X)
+                        self.board.set_field(self.Y, self.X + 1, self.Picture)
+                        self.X = self.X + 1
+                        time.sleep(self.Speed)
+                    else:
+                        break
             if p1 % 4 == 2:
                 for x in range(p2):
-                    # if (self.X - 40, self.Y) not in board.Board.
-                    self.Y = self.Y - 40
-                    time.sleep(self.Speed)
+                    if self.Y - 1 < 0:
+                        break
+                    next_field = self.board.get_field(self.Y - 1, self.X)
+                    if next_field.get_color() != BROWN:
+                        curr_field = self.board.get_field(self.Y, self.X)
+                        self.board.set_field(self.Y, self.X)
+                        self.board.set_field(self.Y - 1, self.X, self.Picture)
+                        self.Y = self.Y - 1
+                        time.sleep(self.Speed)
+                    else:
+                        break
             if p1 % 4 == 3:
                 for x in range(p2):
-                    # if (self.X - 40, self.Y) not in board.Board.
-                    self.Y = self.Y + 40
-                    time.sleep(self.Speed)
-
-    def movePumba(self):
-        self.move(self.X, self.Y)
-
-    def timerEvent(self, event):
-        self.Move.emit()
+                    if self.Y + 1 > 15:
+                        break
+                    next_field = self.board.get_field(self.Y + 1, self.X)
+                    if next_field.get_color() != BROWN:
+                        curr_field = self.board.get_field(self.Y, self.X)
+                        self.board.set_field(self.Y, self.X)
+                        self.board.set_field(self.Y + 1, self.X, self.Picture)
+                        self.Y = self.Y + 1
+                        time.sleep(self.Speed)
+                    else:
+                        break

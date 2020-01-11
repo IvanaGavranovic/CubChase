@@ -1,6 +1,3 @@
-import time
-import sys
-import keyboard
 
 class Enume(object):
     Left = 0

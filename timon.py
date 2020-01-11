@@ -6,8 +6,16 @@ import time
 from pictures import *
 from  colors import *
 import board
+from enemy import *
 
+class Timon(Enemy):
+    def __init__(self, x, y, picture, board):
+        Enemy.__init__(self, x, y, picture, board)
 
+Enemy.initEnemy()
+Enemy.changePosition()
+
+"""
 class Timon(QLabel):
     X = 0
     Y = 0
@@ -83,7 +91,7 @@ class Timon(QLabel):
                         time.sleep(self.Speed)
                     else:
                         break
-
+"""
 
 
 

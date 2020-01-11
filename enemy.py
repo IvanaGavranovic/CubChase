@@ -1,25 +1,9 @@
-from PyQt5.QtCore import pyqtSignal, QBasicTimer
-from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QLabel
 from random import randint
-
-import board
-from pictures import *
-from colors import *
 import time
-from board import Board
-from enemy import *
+from  colors import *
 
-class Pumba(Enemy):
-   def __init__(self, x, y, picture, board):
-     Enemy.__init__(self, x, y, picture, board)
-
-Enemy.initEnemy()
-Enemy.changePosition()
-
-
-'''
-class Pumba(QLabel):
+class Enemy(QLabel):
     X = 0
     Y = 0
     Picture = ""
@@ -28,16 +12,16 @@ class Pumba(QLabel):
     def __init__(self, x, y, picture, board):
         super().__init__()
         self.board = board
-        self.initPumba(x, y, picture)
+        self.initEnemy(x, y, picture)
 
-    def initPumba(self, x, y, picture):
+    def initEnemy(self, x, y, picture):
         self.X = x
         self.Y = y
         self.Picture = picture
         #self.timer = QBasicTimer()
         #self.timer.start(20, self)
 
-    def changePositionPumba(self):
+    def changePosition(self):
         while True:
             p1 = randint(1,4)
             p2 = randint(1,14)
@@ -94,4 +78,8 @@ class Pumba(QLabel):
                         time.sleep(self.Speed)
                     else:
                         break
-'''
+
+
+
+
+

@@ -12,8 +12,8 @@ class Timon(Enemy):
     def __init__(self, x, y, picture, board):
         super().__init__(x, y, picture, board)
 
-        super().initEnemy(1, 1, TIMON_YELLOW)
-        super().changePosition()
+        #super().initEnemy(1, 1, TIMON_YELLOW)
+        #super().changePosition()
 
 """
 class Timon(QLabel):

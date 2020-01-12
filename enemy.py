@@ -31,7 +31,7 @@ class Enemy(QLabel):
                     if self.X - 1 < 0:
                         break
                     next_field = self.board.get_field(self.Y, self.X - 1)
-                    if next_field.get_color() != BROWN:
+                    if next_field.get_color() is YELLOW or GREEN:
                         curr_field = self.board.get_field(self.Y, self.X)
                         self.board.set_field(self.Y, self.X)
                         self.board.set_field(self.Y, self.X - 1, self.Picture)
@@ -44,7 +44,7 @@ class Enemy(QLabel):
                     if self.X + 1 > 20:
                         break
                     next_field = self.board.get_field(self.Y, self.X + 1)
-                    if next_field.get_color() != BROWN:
+                    if next_field.get_color() is YELLOW or GREEN:
                         curr_field = self.board.get_field(self.Y, self.X)
                         self.board.set_field(self.Y, self.X)
                         self.board.set_field(self.Y, self.X + 1, self.Picture)
@@ -57,7 +57,7 @@ class Enemy(QLabel):
                     if self.Y - 1 < 0:
                         break
                     next_field = self.board.get_field(self.Y - 1, self.X)
-                    if next_field.get_color() != BROWN:
+                    if next_field.get_color() is YELLOW or GREEN:
                         curr_field = self.board.get_field(self.Y, self.X)
                         self.board.set_field(self.Y, self.X)
                         self.board.set_field(self.Y - 1, self.X, self.Picture)
@@ -70,7 +70,7 @@ class Enemy(QLabel):
                     if self.Y + 1 > 15:
                         break
                     next_field = self.board.get_field(self.Y + 1, self.X)
-                    if next_field.get_color() != BROWN:
+                    if next_field.get_color() is YELLOW or GREEN:
                         curr_field = self.board.get_field(self.Y, self.X)
                         self.board.set_field(self.Y, self.X)
                         self.board.set_field(self.Y + 1, self.X, self.Picture)

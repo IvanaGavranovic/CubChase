@@ -14,8 +14,8 @@ class Pumba(Enemy):
    def __init__(self, x, y, picture, board):
      Enemy.__init__(self, x, y, picture, board)
 
-Enemy.initEnemy()
-Enemy.changePosition()
+     Enemy.initEnemy(18, 14, PUMBA_YELLOW, self.board)
+     Enemy.changePosition(self)
 
 
 '''

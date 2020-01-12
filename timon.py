@@ -10,10 +10,10 @@ from enemy import *
 
 class Timon(Enemy):
     def __init__(self, x, y, picture, board):
-        Enemy.__init__(self, x, y, picture, board)
+        super().__init__(x, y, picture, board)
 
-        Enemy.initEnemy(1, 1, TIMON_YELLOW, self.board)
-        Enemy.changePosition(self)
+        super().initEnemy(1, 1, TIMON_YELLOW)
+        super().changePosition()
 
 """
 class Timon(QLabel):

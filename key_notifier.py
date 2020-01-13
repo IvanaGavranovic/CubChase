@@ -1,10 +1,8 @@
 from PyQt5.QtCore import QThread, QObject, pyqtSignal, pyqtSlot
-
 import time
 
 
 class KeyNotifier(QObject):
-
     key_signal = pyqtSignal(int)  # definise signal dugmeta
 
     def __init__(self):

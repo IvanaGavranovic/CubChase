@@ -1,7 +1,6 @@
-import sys
+from threading import Thread
 from gameController import *
-from board import Board
-from PyQt5.QtWidgets import QMainWindow, QGridLayout, QFrame, QDesktopWidget, QApplication, QWidget, QHBoxLayout, QLabel, QFileDialog
+from PyQt5.QtWidgets import QApplication
 
 
 if __name__ == '__main__':

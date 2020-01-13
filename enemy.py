@@ -1,85 +1,80 @@
 from PyQt5.QtWidgets import QLabel
 from random import randint
+import sys
 import time
-from  colors import *
+from colors import *
+from movement import *
+
 
 class Enemy(QLabel):
-    X = 0
-    Y = 0
-    Picture = ""
-    Speed = 0.3
 
-    def __init__(self, x, y, picture, board):
+    Speed = 0.5
+    Lock = None
+
+    def __init__(self, x, y, picture, board, lock_object):
         super().__init__()
         self.board = board
-        self.initEnemy(x, y, picture)
+        self.initEnemy(x, y, picture, lock_object)
 
-    def initEnemy(self, x, y, picture):
+    def initEnemy(self, x, y, picture, lock_object):
         self.X = x
         self.Y = y
         self.Picture = picture
-        #self.timer = QBasicTimer()
-        #self.timer.start(20, self)
+        self.Lock = lock_object
 
     def changePosition(self):
         while True:
-            p1 = randint(1,4)
-            p2 = randint(1,14)
+            try:
+                p1 = randint(1, 4)
+                p2 = randint(1, 14)
+                if p1 % 4 == LEFT:
+                    self._go(p2, LEFT)
+                elif p1 % 4 == RIGHT:
+                    self._go(p2, RIGHT)
+                elif p1 % 4 == UP:
+                    self._go(p2, UP)
+                else:
+                    self._go(p2, DOWN)
+            except:
+                print("Unexpected error:", sys.exc_info()[0])
 
-            if p1 % 4 == 0:
-                for x in range(p2):
-                    if self.X - 1 < 0:
-                        break
-                    next_field = self.board.get_field(self.Y, self.X - 1)
-                    if next_field.get_color() is YELLOW or GREEN:
-                        curr_field = self.board.get_field(self.Y, self.X)
-                        self.board.set_field(self.Y, self.X)
-                        self.board.set_field(self.Y, self.X - 1, self.Picture)
-                        self.X = self.X - 1
-                        time.sleep(self.Speed)
-                    else:
-                        break
-            if p1 % 4 == 1:
-                for x in range(p2):
-                    if self.X + 1 > 20:
-                        break
-                    next_field = self.board.get_field(self.Y, self.X + 1)
-                    if next_field.get_color() is YELLOW or GREEN:
-                        curr_field = self.board.get_field(self.Y, self.X)
-                        self.board.set_field(self.Y, self.X)
-                        self.board.set_field(self.Y, self.X + 1, self.Picture)
-                        self.X = self.X + 1
-                        time.sleep(self.Speed)
-                    else:
-                        break
-            if p1 % 4 == 2:
-                for x in range(p2):
-                    if self.Y - 1 < 0:
-                        break
-                    next_field = self.board.get_field(self.Y - 1, self.X)
-                    if next_field.get_color() is YELLOW or GREEN:
-                        curr_field = self.board.get_field(self.Y, self.X)
-                        self.board.set_field(self.Y, self.X)
-                        self.board.set_field(self.Y - 1, self.X, self.Picture)
-                        self.Y = self.Y - 1
-                        time.sleep(self.Speed)
-                    else:
-                        break
-            if p1 % 4 == 3:
-                for x in range(p2):
-                    if self.Y + 1 > 15:
-                        break
-                    next_field = self.board.get_field(self.Y + 1, self.X)
-                    if next_field.get_color() is YELLOW or GREEN:
-                        curr_field = self.board.get_field(self.Y, self.X)
-                        self.board.set_field(self.Y, self.X)
-                        self.board.set_field(self.Y + 1, self.X, self.Picture)
-                        self.Y = self.Y + 1
-                        time.sleep(self.Speed)
-                    else:
-                        break
+    def _go(self, steps_num: int, direction: int):
+        for x in range(steps_num):
+            new_coord = self.get_coordinates(direction)
+            #lock
+            print("Wait for lock:")
+            print(self.Picture)
+            self.Lock.acquire()
+            print("I own the lock:")
+            print(self.Picture)
+            next_field = self.board.get_field(new_coord[1], new_coord[0])
+            nf_color = next_field.get_color_name()
+            #unlock
+            print("I don't own the lock")
+            self.Lock.release()
+            if nf_color == YELLOW or nf_color == GREEN:
+                #lock
+                self.Lock.acquire()
+                #curr_field = self.board.get_field(self.Y, self.X)
+                #picture check
+                self.board.set_field(self.Y, self.X)
+                self.board.set_field(new_coord[1], new_coord[0], self.Picture)
+                #unlock
+                self.Lock.release()
+                self.X = new_coord[0]
+                self.Y = new_coord[1]
+                time.sleep(self.Speed)
+            else:
+                break
 
-
-
-
-
+    def get_coordinates(self, direction: int):
+        new_coord = []
+        if direction == LEFT:
+            new_coord = [self.X - 1, self.Y]
+        elif direction == RIGHT:
+            new_coord = [self.X + 1, self.Y]
+        elif direction == UP:
+            new_coord = [self.X, self.Y - 1]
+        else:
+            new_coord = [self.X, self.Y + 1]
+        return new_coord

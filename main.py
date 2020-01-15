@@ -17,6 +17,10 @@ if __name__ == '__main__':
     thread2.daemon = True
     thread2.start()
 
+    thread3 = Thread(target=gc.trap.active)
+    thread3.daemon = True
+    thread3.start()
+
     sys.exit(app.exec_())
 
 

@@ -6,13 +6,12 @@ from colors import *
 from movement import *
 
 
-class Enemy(QLabel):
+class Enemy:
 
-    Speed = 0.5
+    Speed = 0.18
     Lock = None
 
     def __init__(self, x, y, picture, board, lock_object):
-        super().__init__()
         self.board = board
         self.initEnemy(x, y, picture, lock_object)
 
@@ -24,7 +23,7 @@ class Enemy(QLabel):
 
     def changePosition(self):
         while True:
-            try:
+            #try:
                 p1 = randint(1, 4)
                 p2 = randint(1, 14)
                 if p1 % 4 == LEFT:
@@ -35,22 +34,15 @@ class Enemy(QLabel):
                     self._go(p2, UP)
                 else:
                     self._go(p2, DOWN)
-            except:
-                print("Unexpected error:", sys.exc_info()[0])
+            #except:
+                #print("Unexpected error:", sys.exc_info()[0])
 
     def _go(self, steps_num: int, direction: int):
         for x in range(steps_num):
             new_coord = self.get_coordinates(direction)
-            #lock
-            print("Wait for lock:")
-            print(self.Picture)
             self.Lock.acquire()
-            print("I own the lock:")
-            print(self.Picture)
             next_field = self.board.get_field(new_coord[1], new_coord[0])
             nf_color = next_field.get_color_name()
-            #unlock
-            print("I don't own the lock")
             self.Lock.release()
             if nf_color == YELLOW or nf_color == GREEN:
                 #lock
@@ -60,6 +52,7 @@ class Enemy(QLabel):
                 self.board.set_field(self.Y, self.X)
                 self.board.set_field(new_coord[1], new_coord[0], self.Picture)
                 #unlock
+                self.board.update_board()
                 self.Lock.release()
                 self.X = new_coord[0]
                 self.Y = new_coord[1]

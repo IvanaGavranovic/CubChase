@@ -1,3 +1,4 @@
+import threading
 from threading import Thread
 from gameController import *
 from PyQt5.QtWidgets import QApplication
@@ -5,7 +6,8 @@ from PyQt5.QtWidgets import QApplication
 
 if __name__ == '__main__':
     app = QApplication([])
-    gc = GameController()
+    lock_object = threading.RLock()
+    gc = GameController(lock_object)
 
     thread1 = Thread(target=gc.timon_movement)
     thread1.daemon = True

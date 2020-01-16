@@ -2,9 +2,10 @@ import threading
 from threading import Thread
 from gameController import *
 from PyQt5.QtWidgets import QApplication
-
+from appWindow import *
 
 if __name__ == '__main__':
+
     app = QApplication([])
     lock_object = threading.RLock()
     gc = GameController(lock_object)
@@ -23,4 +24,9 @@ if __name__ == '__main__':
 
     sys.exit(app.exec_())
 
-
+    '''
+    #Za prikaz prozora
+    app = QApplication([])
+    oMainwindow = MainWindow()
+    sys.exit(app.exec_())
+    '''

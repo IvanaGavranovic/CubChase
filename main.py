@@ -22,6 +22,10 @@ if __name__ == '__main__':
     thread3.daemon = True
     thread3.start()
 
+    thread4 = Thread(target=gc.simba_movement)
+    thread4.daemon = True
+    thread4.start()
+
     sys.exit(app.exec_())
 
     '''

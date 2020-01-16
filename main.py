@@ -9,6 +9,14 @@ if __name__ == '__main__':
     lock_object = threading.RLock()
     gc = GameController(lock_object)
 
+    thread3 = Thread(target=gc.trap1_active)
+    thread3.daemon = True
+    thread3.start()
+
+    thread4 = Thread(target=gc.trap2_active)
+    thread4.daemon = True
+    thread4.start()
+
     thread1 = Thread(target=gc.timon_movement)
     thread1.daemon = True
     thread1.start()
@@ -17,10 +25,4 @@ if __name__ == '__main__':
     thread2.daemon = True
     thread2.start()
 
-    thread3 = Thread(target=gc.trap.active)
-    thread3.daemon = True
-    thread3.start()
-
     sys.exit(app.exec_())
-
-

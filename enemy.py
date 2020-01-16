@@ -4,6 +4,7 @@ import sys
 import time
 from colors import *
 from movement import *
+from pictures import *
 
 
 class Enemy:
@@ -11,14 +12,15 @@ class Enemy:
     Speed = 0.18
     Lock = None
 
-    def __init__(self, x, y, picture, board, lock_object):
+    def __init__(self, x, y, picture_g,picture_y, board, lock_object):
         self.board = board
-        self.initEnemy(x, y, picture, lock_object)
+        self.initEnemy(x, y, picture_g,picture_y, lock_object)
 
-    def initEnemy(self, x, y, picture, lock_object):
+    def initEnemy(self, x, y, picture_g,picture_y, lock_object):
         self.X = x
         self.Y = y
-        self.Picture = picture
+        self.PictureYellow = picture_y
+        self.PictureGreen = picture_g
         self.Lock = lock_object
 
     def changePosition(self):
@@ -43,14 +45,35 @@ class Enemy:
             self.Lock.acquire()
             next_field = self.board.get_field(new_coord[1], new_coord[0])
             nf_color = next_field.get_color_name()
+            image = next_field.get_image()
             self.Lock.release()
+            if image == TRAP_ACTIVE_Y or image == TRAP_ACTIVE_Z:
+                self.Lock.acquire()
+                self.board.set_field(self.Y, self.X)
+                if image == TRAP_ACTIVE_Y:
+                    if self.PictureGreen == TIMON_GREEN:
+                        self.board.timon_in_trap_y(True)
+                    else:
+                        self.board.pumba_in_trap_y(True)
+                else:
+                    if self.PictureGreen == TIMON_GREEN:
+                        self.board.timon_in_trap_g(True)
+                    else:
+                        self.board.pumba_in_trap_g(True)
+                self.board.update_board()
+                self.Lock.release()
+                time.sleep(10)
+
             if nf_color == YELLOW or nf_color == GREEN:
                 #lock
                 self.Lock.acquire()
                 #curr_field = self.board.get_field(self.Y, self.X)
                 #picture check
                 self.board.set_field(self.Y, self.X)
-                self.board.set_field(new_coord[1], new_coord[0], self.Picture)
+                if nf_color == YELLOW:
+                    self.board.set_field(new_coord[1], new_coord[0], self.PictureYellow)
+                else:
+                    self.board.set_field(new_coord[1], new_coord[0], self.PictureGreen)
                 #unlock
                 self.board.update_board()
                 self.Lock.release()

@@ -30,7 +30,8 @@ class Field(QGraphicsRectItem):
 
     def set_image(self, image):
         if image in {SIMBA_GREEN, SIMBA_YELLOW, NALA_GREEN, NALA_YELLOW,
-                     PUMBA_GREEN, PUMBA_YELLOW, TIMON_GREEN, TIMON_YELLOW}:
+                     PUMBA_GREEN, PUMBA_YELLOW, TIMON_GREEN, TIMON_YELLOW,
+                     TRAP_PASSIVE_Y, TRAP_ACTIVE_Y, TRAP_PASSIVE_Z, TRAP_ACTIVE_Z}:
             self.image_path = image
             q = QBrush()
             q.setTextureImage(QImage(self.image_path))

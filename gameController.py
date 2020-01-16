@@ -9,11 +9,14 @@ class GameController:
 
     def __init__(self, lock_object=None):
         self.board = Board()
-        self.timon = Timon(1, 1, TIMON_YELLOW, self.board, lock_object)
-        self.pumba = Pumba(18, 14, PUMBA_YELLOW, self.board, lock_object)
-        self.trap = Trap(4, 2, TRAP_PASSIVE, self.board, 1, 1)
+        self.timon = Timon(1, 1, TIMON_GREEN,TIMON_YELLOW, self.board, lock_object)
+        self.pumba = Pumba(18, 14, PUMBA_GREEN,PUMBA_YELLOW, self.board, lock_object)
+        self.trap1 = Trap(4, 2, self.board, 1, 1, lock_object)
+        self.trap2 = Trap(10, 17, self.board, 2, 1, lock_object)
         self.board.set_field(1, 1, TIMON_YELLOW)
         self.board.set_field(18, 14, PUMBA_YELLOW)
+        self.board.set_field(4, 2, TRAP_ACTIVE_Y)
+        self.board.set_field(10, 17, TRAP_ACTIVE_Y)
 
     def timon_movement(self):
         self.timon.changePosition()
@@ -21,5 +24,8 @@ class GameController:
     def pumba_movement(self):
         self.pumba.changePosition()
 
-    def trap_active(self):
-        self.trap.active()
+    def trap1_active(self):
+        self.trap1.controlTrap()
+
+    def trap2_active(self):
+        self.trap2.controlTrap()

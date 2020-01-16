@@ -1,6 +1,5 @@
 import sys
 from gameController import *
-from appWindows import *
 from board import Board
 from PyQt5.QtWidgets import QMainWindow, QGridLayout, QFrame, QDesktopWidget, QApplication, QWidget, QHBoxLayout, QLabel, QFileDialog
 
@@ -18,10 +17,5 @@ if __name__ == '__main__':
     thread2.start()
 
     sys.exit(app.exec_())
-'''
-    #Za prikaz svih prozora
-    app = QApplication([])
-    oMainwindow = MainWindow()
-    sys.exit(app.exec_())
-'''
+
 

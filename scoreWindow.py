@@ -2,6 +2,7 @@ from PyQt5 import QtCore
 from PyQt5 import QtGui
 from PyQt5.QtGui import QPixmap, QCursor
 from PyQt5.QtWidgets import *
+from finalWindow import *
 
 class Window3(QMainWindow):                           # <===
     def __init__(self):

@@ -8,18 +8,20 @@ import sys
 
 
 class Field(QGraphicsRectItem):
-    color = WHITE
+
+    color_name = WHITE
     image_path = None
 
     def __init__(self):
         super().__init__(0,0,FIELD_SIZE,FIELD_SIZE)
         self.color = QColor()
-        self.color.setNamedColor(WHITE)
+        self.color.setNamedColor(self.color_name)
         self.setBrush(self.color)
 
     def set_color(self, color):
         if color in {WHITE, GREEN, YELLOW, BROWN}:
-            self.color.setNamedColor(color)
+            self.color_name = color
+            self.color.setNamedColor(self.color_name)
             self.setBrush(self.color)
             self.image_path = None
 
@@ -37,6 +39,11 @@ class Field(QGraphicsRectItem):
     def get_image(self):
         return self.image_path
 
+    def get_color_name(self):
+        return self.color_name
+
+    def _update(self):
+        self.update()
 
 class Board(QGraphicsView):
 
@@ -77,7 +84,6 @@ class Board(QGraphicsView):
                 self.map_to_field(x, y)
             y = 0
 
-
     def set_field(self, height: int, width: int, image: str = None):
         if self.check_board_range(height,width) is False:
             return
@@ -98,19 +104,14 @@ class Board(QGraphicsView):
         else:
             self.fields[height][width].set_color(YELLOW)
 
+    def update_board(self):
+        for x in range(BOARD_HEIGHT):
+            for y in range(BOARD_WIDTH):
+                self.fields[x][y].update()
+        self.scene.update()
+        self.update()
+
     def check_board_range(self, height: int, width: int) -> bool:
         if 0 <= height <= BOARD_HEIGHT and 0 <= width <= BOARD_WIDTH:
             return True
         return False
-
-    # def placeAvatar(self,movement,avatar):
-        # if(movement == Movement.up):
-            # position = avatar.getPosition()
-            # if(position[0] - 1 < 0)
-                # return
-            # newPosition[0] = position[0] - 1
-            # newPosition[1] = position[1]
-            # "position is vector of two values: first represent height, second represent width"
-            # if(getField(newPosition[0],newPosition[1]) != 'z'):
-            #   setField(newPosition[0],newPosition[1],avatar.getImage())
-            #   avatar.setPosition(newPosition)

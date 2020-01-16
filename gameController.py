@@ -12,7 +12,7 @@ class GameController:
         self.board = Board()
         self.timon = Timon(1, 1, TIMON_YELLOW, self.board, lock_object)
         self.pumba = Pumba(18, 14, PUMBA_YELLOW, self.board, lock_object)
-        self.simba = Simba(1, 2, SIMBA_YELLOW, self.board, lock_object, key)
+        self.simba = Simba(1, 2, SIMBA_YELLOW, self.board, lock_object)
         self.trap = Trap(4, 2, TRAP_PASSIVE, self.board, 1, 1)
         self.board.set_field(1, 1, TIMON_YELLOW)
         self.board.set_field(18, 14, PUMBA_YELLOW)

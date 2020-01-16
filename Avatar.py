@@ -1,60 +1,69 @@
+from PyQt5.QtWidgets import QLabel
+from random import randint
 import sys
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QWidget, QLabel, QApplication
-
-from key_notifier import KeyNotifier
+import time
+from colors import *
+from movement import *
 
 
-class SimMoveDemo(QWidget):
+class Avatar:
 
-    def __init__(self):
-        super().__init__()
+    Speed = 0.18
+    Lock = None
 
-        self.avatar1 = QPixmap('avatar.png')
-        self.label1 = QLabel(self)
-
-        self.setWindowState(Qt.WindowMinimized)
-        self.__init_ui__()
+    def __init__(self, x, y, picture, board, lock_object):
+        self.board = board
+        self.initEnemy(x, y, picture, lock_object)
 
         self.key_notifier = KeyNotifier()
         self.key_notifier.key_signal.connect(self.__update_position__)
         self.key_notifier.start()
 
-    def __init_ui__(self):
+    def initAvatar(self, x, y, picture, lock_object):
+        self.X = x
+        self.Y = y
+        self.Picture = picture
+        self.Lock = lock_object
 
-        self.label1.setPixmap(self.avatar1)
-        self.setGeometry(30, 30, 800, 600)  # podesava gde ce prozor biti otvoren setGeometry(x,y,widht,height)
+    def changePosition(self):
+        while True:
+                if keyboard.is_pressed('a'):
+                    self._go(LEFT)
+                elif keyboard.is_pressed('d'):
+                    self._go(RIGHT)
+                elif keyboard.is_pressed('w'):
+                    self._go(UP)
+                else:
+                    self._go(DOWN)
 
-        self.setWindowTitle('Cab Chase')
-        self.show()
+    def _go(self, direction: int):
+            new_coord = self.get_coordinates(direction)
+            self.Lock.acquire()
+            next_field = self.board.get_field(new_coord[1], new_coord[0])
+            nf_color = next_field.get_color_name()
+            self.Lock.release()
+            if nf_color == YELLOW or nf_color == GREEN:
+                #lock
+                self.Lock.acquire()
+                #curr_field = self.board.get_field(self.Y, self.X)
+                #picture check
+                self.board.set_field(self.Y, self.X)
+                self.board.set_field(new_coord[1], new_coord[0], self.Picture)
+                #unlock
+                self.board.update_board()
+                self.Lock.release()
+                self.X = new_coord[0]
+                self.Y = new_coord[1]
+                time.sleep(self.Speed)
 
-    def keyPressEvent(self, event):
-        self.key_notifier.add_key(event.key())
-
-    def keyReleaseEvent(self, event):
-        self.key_notifier.rem_key(event.key())
-
-    def draw(self):
-        self.autoFillBackground()
-
-    def __update_position__(self, key):
-        rec1 = self.label1.geometry()
-
-        if key == Qt.Key_Right:
-            self.label1.setGeometry(rec1.x() + 40, rec1.y(), rec1.width(), rec1.height())
-        elif key == Qt.Key_Down:
-            self.label1.setGeometry(rec1.x(), rec1.y() + 40, rec1.width(), rec1.height())
-        elif key == Qt.Key_Up:
-            self.label1.setGeometry(rec1.x(), rec1.y() - 40, rec1.width(), rec1.height())
-        elif key == Qt.Key_Left:
-            self.label1.setGeometry(rec1.x() - 40, rec1.y(), rec1.width(), rec1.height())
-
-    def closeEvent(self, event):
-        self.key_notifier.die()
-
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    ex = SimMoveDemo()
-    sys.exit(app.exec_())
+    def get_coordinates(self, direction: int):
+        new_coord = []
+        if direction == LEFT:
+            new_coord = [self.X - 1, self.Y]
+        elif direction == RIGHT:
+            new_coord = [self.X + 1, self.Y]
+        elif direction == UP:
+            new_coord = [self.X, self.Y - 1]
+        else:
+            new_coord = [self.X, self.Y + 1]
+        return new_coord

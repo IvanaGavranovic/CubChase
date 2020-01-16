@@ -23,7 +23,6 @@ class Enemy:
 
     def changePosition(self):
         while True:
-            #try:
                 p1 = randint(1, 4)
                 p2 = randint(1, 14)
                 if p1 % 4 == LEFT:
@@ -34,8 +33,6 @@ class Enemy:
                     self._go(p2, UP)
                 else:
                     self._go(p2, DOWN)
-            #except:
-                #print("Unexpected error:", sys.exc_info()[0])
 
     def _go(self, steps_num: int, direction: int):
         for x in range(steps_num):

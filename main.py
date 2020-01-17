@@ -30,6 +30,14 @@ if __name__ == '__main__':
     thread6.daemon = True
     thread6.start()
 
+    thread7 = Thread(target=gc.activate_trap)
+    thread7.daemon = True
+    thread7.start()
+
+    thread8 = Thread(target=gc.enemy_in_trap)
+    thread8.daemon = True
+    thread8.start()
+
     sys.exit(app.exec_())
 
     '''

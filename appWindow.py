@@ -4,6 +4,7 @@ from PyQt5.QtGui import QPixmap, QCursor
 from PyQt5.QtWidgets import *
 from scoreWindow import *
 
+
 class MainWindow(QWidget):
 
     def __init__(self):
@@ -11,7 +12,7 @@ class MainWindow(QWidget):
         self.setGeometry(0, 0, 800, 550)
         self.setWindowTitle("Start window")
 
-        self.label = QLabel(self);
+        self.label = QLabel(self)
         self.label.setPixmap(QPixmap('Images/background.png'))
         self.label.setGeometry(0, 0, 800, 550)
 
@@ -33,6 +34,7 @@ class MainWindow(QWidget):
         self.w = Window2()
         self.w.show()
         self.hide()
+
 
 class Window2(QMainWindow):                           # <===
     def __init__(self):

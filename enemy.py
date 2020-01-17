@@ -12,11 +12,11 @@ class Enemy:
     Speed = 0.18
     Lock = None
 
-    def __init__(self, x, y, picture_g,picture_y, board, lock_object):
+    def __init__(self, x, y, picture_g, picture_y, board, lock_object):
         self.board = board
-        self.initEnemy(x, y, picture_g,picture_y, lock_object)
+        self.initEnemy(x, y, picture_g, picture_y, lock_object)
 
-    def initEnemy(self, x, y, picture_g,picture_y, lock_object):
+    def initEnemy(self, x, y, picture_g, picture_y, lock_object):
         self.X = x
         self.Y = y
         self.PictureYellow = picture_y
@@ -44,6 +44,22 @@ class Enemy:
             nf_color = next_field.get_color_name()
             image = next_field.get_image()
             self.Lock.release()
+            if image in {TRAP_ACTIVE_Y, TRAP_ACTIVE_Z}:
+                self.Lock.acquire()
+                self.board.set_field(self.Y, self.X)
+                self.X = new_coord[0]
+                self.Y = new_coord[1]
+                self.Lock.release()
+                time.sleep(5)
+                if nf_color == YELLOW:
+                    self.Lock.acquire()
+                    self.board.set_field(new_coord[1], new_coord[0], self.PictureYellow)
+                    self.Lock.release()
+                else:
+                    self.Lock.acquire()
+                    self.board.set_field(new_coord[1], new_coord[0], self.PictureGreen)
+                    self.Lock.release()
+                continue
             if nf_color == YELLOW or nf_color == GREEN:
                 #lock
                 self.Lock.acquire()

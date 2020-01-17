@@ -44,23 +44,6 @@ class Enemy:
             nf_color = next_field.get_color_name()
             image = next_field.get_image()
             self.Lock.release()
-            if image == TRAP_ACTIVE_Y or image == TRAP_ACTIVE_Z:
-                self.Lock.acquire()
-                self.board.set_field(self.Y, self.X)
-                if image == TRAP_ACTIVE_Y:
-                    if self.PictureGreen == TIMON_GREEN:
-                        self.board.timon_in_trap_y(True)
-                    else:
-                        self.board.pumba_in_trap_y(True)
-                else:
-                    if self.PictureGreen == TIMON_GREEN:
-                        self.board.timon_in_trap_g(True)
-                    else:
-                        self.board.pumba_in_trap_g(True)
-                self.board.update_board()
-                self.Lock.release()
-                time.sleep(10)
-
             if nf_color == YELLOW or nf_color == GREEN:
                 #lock
                 self.Lock.acquire()

@@ -63,7 +63,7 @@ class Trap(QLabel):
             self.set_active_trap_green(self.X, self.Y)
         while True:
             self.lock.acquire()
-            self.board.pumba_in_g
+            #self.board.pumba_in_g
             self.lock.release()
             time.sleep(10)
 

@@ -1,4 +1,4 @@
-from avatar1 import *
+from Avatar import *
 
 
 class Simba(Avatar):

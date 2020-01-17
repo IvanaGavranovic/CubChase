@@ -4,6 +4,8 @@ import sys
 import time
 from colors import *
 from movement import *
+import keyboard
+from key_notifier import KeyNotifier
 
 
 class Avatar:
@@ -13,10 +15,10 @@ class Avatar:
 
     def __init__(self, x, y, picture, board, lock_object):
         self.board = board
-        self.initEnemy(x, y, picture, lock_object)
+        self.initAvatar(x, y, picture, lock_object)
 
         self.key_notifier = KeyNotifier()
-        self.key_notifier.key_signal.connect(self.__update_position__)
+        self.key_notifier.key_signal.connect(self.changePosition)
         self.key_notifier.start()
 
     def initAvatar(self, x, y, picture, lock_object):
@@ -33,7 +35,7 @@ class Avatar:
                     self._go(RIGHT)
                 elif keyboard.is_pressed('w'):
                     self._go(UP)
-                else:
+                elif keyboard.is_pressed('s'):
                     self._go(DOWN)
 
     def _go(self, direction: int):

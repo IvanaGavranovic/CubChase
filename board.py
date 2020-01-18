@@ -1,14 +1,14 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
-from colors import *
-from measures import *
-from pictures import *
+from color import *
+from measure import *
+from picture import *
 import sys
 
 class Field(QGraphicsRectItem):
 
-    color_name = WHITE
+    color_name = BROWN
     image_path = None
 
     def __init__(self):
@@ -30,7 +30,8 @@ class Field(QGraphicsRectItem):
     def set_image(self, image):
         if image in {SIMBA_GREEN, SIMBA_YELLOW, NALA_GREEN, NALA_YELLOW,
                      PUMBA_GREEN, PUMBA_YELLOW, TIMON_GREEN, TIMON_YELLOW,
-                     TRAP_PASSIVE_Y, TRAP_ACTIVE_Y, TRAP_PASSIVE_Z, TRAP_ACTIVE_Z}:
+                     TRAP_PASSIVE_Y, TRAP_ACTIVE_Y, TRAP_PASSIVE_Z, TRAP_ACTIVE_Z,
+                     PUMBA_G_IN_TRAP, PUMBA_Y_IN_TRAP, TIMON_G_IN_TRAP, TIMON_Y_IN_TRAP}:
             self.image_path = image
             q = QBrush()
             q.setTextureImage(QImage(self.image_path))
@@ -44,6 +45,7 @@ class Field(QGraphicsRectItem):
 
     def _update(self):
         self.update()
+
 
 class Board(QGraphicsView):
 
@@ -107,6 +109,9 @@ class Board(QGraphicsView):
     def update_board(self):
         for x in range(BOARD_HEIGHT):
             for y in range(BOARD_WIDTH):
+                if self.fields[x][y] is None:
+                    print(x)
+                    print(y)
                 self.fields[x][y].update()
         self.scene.update()
         self.update()

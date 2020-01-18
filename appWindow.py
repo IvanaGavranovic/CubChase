@@ -10,11 +10,16 @@ class MainWindow(QGraphicsScene):
     def __init__(self, startMethodMainWindow, quitMethodMainWindow, parent=None):
         super(MainWindow, self).__init__(parent)
 
+class MainWindow(QWidget):
         screenWidth = 845
         screenHeigth = 645
 
         oImage = QPixmap('Images/background.png')
         sImage = oImage.scaled(QSize(screenWidth, screenHeigth))
+
+        self.label = QLabel(self)
+        self.label.setPixmap(QPixmap('Images/background.png'))
+        self.label.setGeometry(0, 0, 800, 550)
 
         self.graphicsPixmapItem = QGraphicsPixmapItem(sImage)
         self.addItem(self.graphicsPixmapItem)
@@ -48,6 +53,12 @@ class BoardWindow(QGraphicsScene):                           # <===
 
         screenWidth = 800
         screenHeigth = 550
+
+class Window2(QMainWindow):                           # <===
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Playing window")
+        self.setGeometry(0, 0, 800, 550)
 
         self.setSceneRect(0, 0, screenWidth, screenHeigth)
 

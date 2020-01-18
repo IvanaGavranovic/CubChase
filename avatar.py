@@ -1,12 +1,8 @@
-from PyQt5.QtWidgets import QLabel
-from random import randint
-import sys
 import time
-from colors import *
+from color import *
 from movement import *
 import keyboard
-from key_notifier import KeyNotifier
-from pictures import *
+from picture import *
 
 
 class Avatar:
@@ -25,7 +21,7 @@ class Avatar:
         self.PictureYellow = picture_y
         self.Lock = lock_object
 
-    def changePosition(self):
+    def changePositionSimba(self):
         while True:
                 if keyboard.is_pressed('a'):
                     self._go(LEFT)
@@ -34,6 +30,17 @@ class Avatar:
                 elif keyboard.is_pressed('w'):
                     self._go(UP)
                 elif keyboard.is_pressed('s'):
+                    self._go(DOWN)
+
+    def changePositionNala(self):
+        while True:
+                if keyboard.is_pressed('LEFT'):
+                    self._go(LEFT)
+                elif keyboard.is_pressed('RIGHT'):
+                    self._go(RIGHT)
+                elif keyboard.is_pressed('UP'):
+                    self._go(UP)
+                elif keyboard.is_pressed('DOWN'):
                     self._go(DOWN)
 
     def _go(self, direction: int):

@@ -2,9 +2,9 @@ from PyQt5.QtWidgets import QLabel
 from random import randint
 import sys
 import time
-from colors import *
+from color import *
 from movement import *
-from pictures import *
+from picture import *
 
 
 class Enemy:

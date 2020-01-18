@@ -1,9 +1,9 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
-from colors import *
-from measures import *
-from pictures import *
+from color import *
+from measure import *
+from picture import *
 import sys
 
 

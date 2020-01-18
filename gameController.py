@@ -1,9 +1,9 @@
-from pictures import *
 from board import *
 from timon import *
 from pumba import *
 from trap import *
 from simba import *
+from nala import *
 
 
 class GameController:
@@ -13,20 +13,25 @@ class GameController:
         self.board = Board()
         #self.board.set_field(1, 1, TIMON_YELLOW)
         #self.board.set_field(14, 18, PUMBA_YELLOW)
-        self.board.set_field(4, 2, SIMBA_YELLOW)
+        self.board.set_field(10, 9, SIMBA_YELLOW)
+        self.board.set_field(10, 11, NALA_YELLOW)
         #self.board.set_field(4, 2, TRAP_PASSIVE_Z)
         self.board.set_field(10, 17, TRAP_PASSIVE_Y)
         self.timon = Timon(1, 2, TIMON_GREEN, TIMON_YELLOW, self.board, lock_object)
         self.pumba = Pumba(17, 14, PUMBA_GREEN, PUMBA_YELLOW, self.board, lock_object)
-        self.simba = Simba(2, 4, SIMBA_GREEN, SIMBA_YELLOW, self.board, lock_object)
+        self.simba = Simba(10, 9, SIMBA_GREEN, SIMBA_YELLOW, self.board, lock_object)
+        self.nala = Nala(10, 11, NALA_GREEN, NALA_YELLOW, self.board, lock_object)
         self.trap1 = Trap(2, 4, self.board, 1, 1, lock_object)
         self.trap2 = Trap(17, 10, self.board, 2, 1, lock_object)
 
+    def simba_movement(self):
+        self.simba.changePositionSimba()
+
+    def nala_movement(self):
+        self.nala.changePositionNala()
+
     def timon_movement(self):
         self.timon.changePosition()
-
-    def simba_movement(self):
-        self.simba.changePosition()
 
     def pumba_movement(self):
         self.pumba.changePosition()

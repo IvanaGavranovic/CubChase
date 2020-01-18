@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QLabel
 from PyQt5.QtCore import pyqtSignal, QEventLoop, QTimer
-from pictures import *
-from colors import *
+from picture import *
+from color import *
 import time
 from datetime import datetime
 

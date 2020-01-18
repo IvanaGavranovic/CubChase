@@ -6,7 +6,6 @@ from measures import *
 from pictures import *
 import sys
 
-
 class Field(QGraphicsRectItem):
 
     color_name = WHITE
@@ -50,7 +49,7 @@ class Board(QGraphicsView):
 
     def __init__(self):
         super().__init__()
-        self.setGeometry(250, 80, 845, 645)
+        self.setGeometry(0, 0, 845, 645)
         self.setWindowTitle("Cub Chase 1.0")
         self.make_scene()
         self.load_map()

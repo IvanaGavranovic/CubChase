@@ -7,8 +7,8 @@ from simba import *
 
 class GameController:
 
-    def __init__(self, lock_object=None):
-        self.board = Board()
+    def __init__(self, board, lock_object=None):
+        self.board = board
         self.timon = Timon(1, 1, TIMON_GREEN, TIMON_YELLOW, self.board, lock_object)
         self.pumba = Pumba(18, 14, PUMBA_GREEN, PUMBA_YELLOW, self.board, lock_object)
         self.simba = Simba(1, 2, SIMBA_YELLOW, self.board, lock_object)

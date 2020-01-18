@@ -3,39 +3,10 @@ from threading import Thread
 from gameController import *
 from PyQt5.QtWidgets import QApplication
 from appWindow import *
+from windowManager import *
 
 if __name__ == '__main__':
-
-    app = QApplication([])
-    lock_object = threading.RLock()
-    gc = GameController(lock_object)
-
-    thread1 = Thread(target=gc.timon_movement)
-    thread1.daemon = True
-    thread1.start()
-
-    thread2 = Thread(target=gc.pumba_movement)
-    thread2.daemon = True
-    thread2.start()
-
-    thread4 = Thread(target=gc.simba_movement)
-    thread4.daemon = True
-    thread4.start()
-
-    thread5 = Thread(target=gc.trap1_active)
-    thread5.daemon = True
-    thread5.start()
-
-    thread6 = Thread(target=gc.trap2_active)
-    thread6.daemon = True
-    thread6.start()
-
-    sys.exit(app.exec_())
-
-    '''
     #Za prikaz prozora
     app = QApplication([])
-    oMainwindow = MainWindow()
+    oWindowManager = WindowManager(app)
     sys.exit(app.exec_())
-    '''
-

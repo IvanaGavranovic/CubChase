@@ -8,7 +8,6 @@ from datetime import datetime
 
 class Trap(QLabel):
 
-    Trap = 1
     isActive = False
     activeTrap = pyqtSignal()
 
@@ -56,6 +55,7 @@ class Trap(QLabel):
             self.lock.acquire()
             if self.timon_in_g or self.timon_in_y or self.pumba_in_g or self.pumba_in_y:
                 self.Trap = False
+                self.lock.release()
                 continue
             if self.isActive:
                 if color_name == YELLOW:

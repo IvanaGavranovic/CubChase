@@ -51,14 +51,13 @@ class Enemy:
                 self.Y = new_coord[1]
                 self.Lock.release()
                 time.sleep(5)
+                self.Lock.acquire()
                 if nf_color == YELLOW:
-                    self.Lock.acquire()
-                    self.board.set_field(new_coord[1], new_coord[0], self.PictureYellow)
-                    self.Lock.release()
+                    self.board.set_field(self.Y, self.X, self.PictureYellow)
                 else:
-                    self.Lock.acquire()
-                    self.board.set_field(new_coord[1], new_coord[0], self.PictureGreen)
-                    self.Lock.release()
+                    self.board.set_field(self.Y, self.X, self.PictureGreen)
+                self.board.update_board()
+                self.Lock.release()
                 continue
             if nf_color == YELLOW or nf_color == GREEN:
                 #lock

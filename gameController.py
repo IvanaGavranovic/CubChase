@@ -11,16 +11,10 @@ class GameController:
     def __init__(self, lock_object=None):
         self.lock_object = lock_object
         self.board = Board()
-        #self.board.set_field(1, 1, TIMON_YELLOW)
-        #self.board.set_field(14, 18, PUMBA_YELLOW)
-        self.board.set_field(10, 9, SIMBA_YELLOW)
-        self.board.set_field(10, 11, NALA_YELLOW)
-        #self.board.set_field(4, 2, TRAP_PASSIVE_Z)
-        self.board.set_field(10, 17, TRAP_PASSIVE_Y)
         self.timon = Timon(1, 2, TIMON_GREEN, TIMON_YELLOW, self.board, lock_object)
         self.pumba = Pumba(17, 14, PUMBA_GREEN, PUMBA_YELLOW, self.board, lock_object)
-        self.simba = Simba(10, 9, SIMBA_GREEN, SIMBA_YELLOW, self.board, lock_object)
-        self.nala = Nala(10, 11, NALA_GREEN, NALA_YELLOW, self.board, lock_object)
+        self.simba = Simba(9, 10, SIMBA_GREEN, SIMBA_YELLOW, self.board, lock_object)
+        self.nala = Nala(11, 10, NALA_GREEN, NALA_YELLOW, self.board, lock_object)
         self.trap1 = Trap(2, 4, self.board, 1, 1, lock_object)
         self.trap2 = Trap(17, 10, self.board, 2, 1, lock_object)
 
@@ -48,11 +42,17 @@ class GameController:
         while not trap1_active or not trap2_active:
             self.lock_object.acquire()
             if not trap1_active:
-                self.trap1.isActive = self.check_coords(self.simba.X,self.simba.Y,self.trap1.X,self.trap1.Y)
-                trap1_active = self.trap1.isActive
+                if (self.check_coords(self.simba.X,self.simba.Y,self.trap1.X,self.trap1.Y) or
+                self.check_coords(self.nala.X,self.nala.Y,self.trap1.X,self.trap1.Y)):
+                    self.trap1.isActive = trap1_active = True
+                else:
+                    self.trap1.isActive = trap1_active = False
             if not trap2_active:
-                self.trap2.isActive = self.check_coords(self.simba.X,self.simba.Y,self.trap2.X,self.trap2.Y)
-                trap2_active = self.trap2.isActive
+                if (self.check_coords(self.simba.X,self.simba.Y,self.trap2.X,self.trap2.Y) or
+                self.check_coords(self.nala.X,self.nala.Y,self.trap2.X,self.trap2.Y)):
+                    self.trap2.isActive = trap2_active = True
+                else:
+                    self.trap2.isActive = trap2_active = False
             self.lock_object.release()
             time.sleep(0.2)
 

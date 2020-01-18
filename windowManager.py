@@ -20,7 +20,7 @@ class WindowManager(QMainWindow):
         self.app = app
         self.mainWindowScene = MainWindow(self.startMethod, self.quitMethod)
         self.changeViewMethod(QGraphicsView(self.mainWindowScene))
-        self.boardWindowScene = BoardWindow(self.nextMethod)
+        #self.boardWindowScene = BoardWindow(self.nextMethod)
         self.scoreWindowScene = ScoreWindow(self.continueMethod)
         self.finalWindowScene = FinalWindow(self.backToMainMenuMethod)
         self.show()
@@ -46,14 +46,25 @@ class WindowManager(QMainWindow):
         thread4.daemon = True
         thread4.start()
 
-        thread5 = threading.Thread(target=gc.trap1_active)
+        thread5 = threading.Thread(target=gc.nala_movement)
         thread5.daemon = True
         thread5.start()
 
-        thread6 = threading.Thread(target=gc.trap2_active)
+        thread6 = threading.Thread(target=gc.trap1_active)
         thread6.daemon = True
         thread6.start()
 
+        thread7 = threading.Thread(target=gc.trap2_active)
+        thread7.daemon = True
+        thread7.start()
+
+        thread8 = threading.Thread(target=gc.activate_trap)
+        thread8.daemon = True
+        thread8.start()
+
+        thread9 = threading.Thread(target=gc.enemy_in_trap)
+        thread9.daemon = True
+        thread9.start()
 
     def nextMethod(self):
         view = QGraphicsView(self.scoreWindowScene)

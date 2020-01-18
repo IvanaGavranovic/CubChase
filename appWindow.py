@@ -10,16 +10,11 @@ class MainWindow(QGraphicsScene):
     def __init__(self, startMethodMainWindow, quitMethodMainWindow, parent=None):
         super(MainWindow, self).__init__(parent)
 
-class MainWindow(QWidget):
         screenWidth = 845
         screenHeigth = 645
 
         oImage = QPixmap('Images/background.png')
         sImage = oImage.scaled(QSize(screenWidth, screenHeigth))
-
-        self.label = QLabel(self)
-        self.label.setPixmap(QPixmap('Images/background.png'))
-        self.label.setGeometry(0, 0, 800, 550)
 
         self.graphicsPixmapItem = QGraphicsPixmapItem(sImage)
         self.addItem(self.graphicsPixmapItem)
@@ -46,19 +41,13 @@ class MainWindow(QWidget):
 
         #self.show()
 
-
-class BoardWindow(QGraphicsScene):                           # <===
+        '''
+class BoardWindow(QGraphicsScene):
     def __init__(self, nextMethodBoardWindow, parent=None):
         super(BoardWindow, self).__init__(parent)
 
         screenWidth = 800
         screenHeigth = 550
-
-class Window2(QMainWindow):                           # <===
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Playing window")
-        self.setGeometry(0, 0, 800, 550)
 
         self.setSceneRect(0, 0, screenWidth, screenHeigth)
 
@@ -73,3 +62,4 @@ class Window2(QMainWindow):                           # <===
         pbtn.setStyleSheet("background-color: rgba(255, 255, 255, 0);")
         pbtn.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
         self.addWidget(pbtn)
+        '''

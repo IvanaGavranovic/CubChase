@@ -8,9 +8,9 @@ from nala import *
 
 class GameController:
 
-    def __init__(self, lock_object=None):
+    def __init__(self, board, lock_object=None):
         self.lock_object = lock_object
-        self.board = Board()
+        self.board = board
         self.timon = Timon(1, 2, TIMON_GREEN, TIMON_YELLOW, self.board, lock_object)
         self.pumba = Pumba(17, 14, PUMBA_GREEN, PUMBA_YELLOW, self.board, lock_object)
         self.simba = Simba(9, 10, SIMBA_GREEN, SIMBA_YELLOW, self.board, lock_object)

@@ -42,6 +42,10 @@ class WindowManager(QMainWindow):
         thread2.daemon = True
         thread2.start()
 
+        thread3 = threading.Thread(target=gc.collisionEnemyAvatar)
+        thread3.daemon = True
+        thread3.start()
+
         thread4 = threading.Thread(target=gc.simba_movement)
         thread4.daemon = True
         thread4.start()

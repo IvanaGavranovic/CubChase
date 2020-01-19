@@ -13,7 +13,7 @@ class WindowManager(QMainWindow):
     def __init__(self, app):
         #This initializes the main window or form
         super(WindowManager, self).__init__()
-        self.setGeometry(50,50,800,550)
+        self.setGeometry(50,50,845,645)
         self.setWindowTitle("Scene manager")
 
         #create the view
@@ -41,11 +41,11 @@ class WindowManager(QMainWindow):
         thread2 = threading.Thread(target=gc.pumba_movement)
         thread2.daemon = True
         thread2.start()
-
+        '''
         thread3 = threading.Thread(target=gc.collisionEnemyAvatar)
         thread3.daemon = True
         thread3.start()
-
+'''
         thread4 = threading.Thread(target=gc.simba_movement)
         thread4.daemon = True
         thread4.start()

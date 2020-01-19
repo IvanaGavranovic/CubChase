@@ -10,15 +10,16 @@ class Avatar:
     Speed = 0.18
     Lock = None
 
-    def __init__(self, x, y, picture_g,picture_y, board, lock_object):
+    def __init__(self, x, y, picture_g, picture_y, picture_f, board, lock_object):
         self.board = board
-        self.initAvatar(x, y, picture_g, picture_y, lock_object)
+        self.initAvatar(x, y, picture_g, picture_y, picture_f, lock_object)
 
-    def initAvatar(self, x, y, picture_g,picture_y, lock_object):
+    def initAvatar(self, x, y, picture_g, picture_y, picture_f, lock_object):
         self.set_X(x)
         self.set_Y(y)
         self.PictureGreen = picture_g
         self.PictureYellow = picture_y
+        self.PictureFootprint = picture_f
         self.Lock = lock_object
 
     def changePositionSimba(self):
@@ -71,13 +72,23 @@ class Avatar:
                 #lock
                 self.Lock.acquire()
                 print("uzeo avatar")
-                #curr_field = self.board.get_field(self.Y, self.X)
+                curr_field = self.board.get_field(self.Y, self.X)
                 #picture check
-                self.board.set_field(self.Y, self.X)
                 if nf_color == YELLOW:
-                    self.board.set_field(new_coord[1], new_coord[0], self.PictureYellow)
+                    if curr_field.get_color_name() == GREEN:
+                        self.board.set_field(self.Y, self.X)
+                        self.board.set_field(new_coord[1], new_coord[0], self.PictureYellow)
+#fcd12a
+                    else:
+                        self.board.set_field(self.Y, self.X, self.PictureFootprint)
+                        self.board.set_field(new_coord[1], new_coord[0], self.PictureYellow)
                 else:
-                    self.board.set_field(new_coord[1], new_coord[0], self.PictureGreen)
+                    if curr_field.get_color_name() == GREEN:
+                        self.board.set_field(self.Y, self.X)
+                        self.board.set_field(new_coord[1], new_coord[0], self.PictureGreen)
+                    else:
+                        self.board.set_field(self.Y, self.X, self.PictureFootprint)
+                        self.board.set_field(new_coord[1], new_coord[0], self.PictureGreen)
                 #unlock
                 self.set_X(new_coord[0])
                 self.set_Y(new_coord[1])

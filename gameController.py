@@ -13,8 +13,8 @@ class GameController:
         self.board = board
         self.timon = Timon(1, 2, TIMON_GREEN, TIMON_YELLOW, self.board, lock_object)
         self.pumba = Pumba(17, 14, PUMBA_GREEN, PUMBA_YELLOW, self.board, lock_object)
-        self.simba = Simba(9, 10, SIMBA_GREEN, SIMBA_YELLOW, self.board, lock_object)
-        self.nala = Nala(11, 10, NALA_GREEN, NALA_YELLOW, self.board, lock_object)
+        self.simba = Simba(9, 10, SIMBA_GREEN, SIMBA_YELLOW, SIMBA_FOOTPRINT, self.board, lock_object)
+        self.nala = Nala(11, 10, NALA_GREEN, NALA_YELLOW, NALA_FOOTPRINT, self.board, lock_object)
         self.trap1 = Trap(2, 4, self.board, 1, True, lock_object)
         self.trap2 = Trap(17, 10, self.board, 2, True, lock_object)
 
@@ -121,6 +121,7 @@ class GameController:
             return True
         return False
 
+'''''
     def collisionEnemyAvatar(self):
 
             while True:
@@ -136,3 +137,4 @@ class GameController:
 
                 self.lock_object.release()
                 time.sleep(0.2)
+'''

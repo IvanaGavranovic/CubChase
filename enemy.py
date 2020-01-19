@@ -36,32 +36,39 @@ class Enemy:
                 else:
                     self._go(p2, DOWN)
 
-    def _go(self, steps_num: int, direction: int):
+    def _go(self, steps_num: int, direction: int):          # ?
         for x in range(steps_num):
             new_coord = self.get_coordinates(direction)
             self.Lock.acquire()
+            print("uzeo enemy")
             next_field = self.board.get_field(new_coord[1], new_coord[0])
             nf_color = next_field.get_color_name()
             image = next_field.get_image()
+            print("pustio enemy")
             self.Lock.release()
             if image in {TRAP_ACTIVE_Y, TRAP_ACTIVE_Z}:
                 self.Lock.acquire()
+                print("uzeo enemy")
                 self.board.set_field(self.Y, self.X)
                 self.X = new_coord[0]
                 self.Y = new_coord[1]
+                print("pustio enemy")
                 self.Lock.release()
                 time.sleep(5)
                 self.Lock.acquire()
+                print("uzeo enemy")
                 if nf_color == YELLOW:
                     self.board.set_field(self.Y, self.X, self.PictureYellow)
                 else:
                     self.board.set_field(self.Y, self.X, self.PictureGreen)
                 self.board.update_board()
+                print("pustio enemy")
                 self.Lock.release()
                 continue
             if nf_color == YELLOW or nf_color == GREEN:
                 #lock
                 self.Lock.acquire()
+                print("uzeo enemy")
                 #curr_field = self.board.get_field(self.Y, self.X)
                 #picture check
                 self.board.set_field(self.Y, self.X)
@@ -70,10 +77,11 @@ class Enemy:
                 else:
                     self.board.set_field(new_coord[1], new_coord[0], self.PictureGreen)
                 #unlock
-                self.board.update_board()
-                self.Lock.release()
                 self.X = new_coord[0]
                 self.Y = new_coord[1]
+                self.board.update_board()
+                print("pustio enemy")
+                self.Lock.release()
                 time.sleep(self.Speed)
             else:
                 break

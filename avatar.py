@@ -43,15 +43,18 @@ class Avatar:
                 elif keyboard.is_pressed('DOWN'):
                     self._go(DOWN)
 
-    def _go(self, direction: int):
+    def _go(self, direction: int):                      # ?
             new_coord = self.get_coordinates(direction)
             self.Lock.acquire()
+            print("uzeo avatar")
             next_field = self.board.get_field(new_coord[1], new_coord[0])
             nf_color = next_field.get_color_name()
             image = next_field.get_image()
+            print("pustio avatar")
             self.Lock.release()
             if image in {TRAP_PASSIVE_Y, TRAP_PASSIVE_Z}:
                 self.Lock.acquire()
+                print("uzeo avatar")
                 self.board.set_field(self.Y, self.X)
                 if nf_color == YELLOW:
                     self.board.set_field(new_coord[1], new_coord[0], self.PictureYellow)
@@ -60,12 +63,14 @@ class Avatar:
                 self.X = new_coord[0]
                 self.Y = new_coord[1]
                 self.board.update_board()
+                print("pustio avatar")
                 self.Lock.release()
                 time.sleep(self.Speed)
                 return
             if nf_color == YELLOW or nf_color == GREEN:
                 #lock
                 self.Lock.acquire()
+                print("uzeo avatar")
                 #curr_field = self.board.get_field(self.Y, self.X)
                 #picture check
                 self.board.set_field(self.Y, self.X)
@@ -77,6 +82,7 @@ class Avatar:
                 self.set_X(new_coord[0])
                 self.set_Y(new_coord[1])
                 self.board.update_board()
+                print("pustio avatar")
                 self.Lock.release()
                 time.sleep(self.Speed)
 

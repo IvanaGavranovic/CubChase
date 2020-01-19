@@ -30,19 +30,19 @@ class MainWindow(QWidget):
 
         self.show()
 
-    def window2(self):  # <===
+    def window2(self):
         self.w = Window2()
         self.w.show()
         self.hide()
 
 
-class Window2(QMainWindow):                           # <===
+class Window2(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Playing window")
         self.setGeometry(0, 0, 800, 550)
 
-        self.label = QLabel(self);
+        self.label = QLabel(self)
         #self.label.setPixmap(QPixmap('Images/map.png'))
         self.label.setGeometry(0, 0, 800, 550)
 
@@ -52,7 +52,7 @@ class Window2(QMainWindow):                           # <===
         pbtn.setStyleSheet("background-color: rgba(255, 255, 255, 0);")
         pbtn.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
 
-    def window3(self):  # <===
+    def window3(self):
             self.w = Window3()
             self.w.show()
             self.hide()

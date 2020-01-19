@@ -45,7 +45,7 @@ class Trap(QLabel):
         self.board.set_field(y, x, TRAP_PASSIVE_Y)
         self.board.update_board()
 
-    def controlTrap(self):
+    def controlTrap(self):              # ?
         par = 0
         curr_field = self.board.get_field(self.Y, self.X)
         color_name = curr_field.get_color_name()
@@ -53,8 +53,10 @@ class Trap(QLabel):
         d1 = None
         while self.Trap:
             self.lock.acquire()
+            print("uzela zamka")
             if self.timon_in_g or self.timon_in_y or self.pumba_in_g or self.pumba_in_y:
                 self.Trap = False
+                print("pustila zamka")
                 self.lock.release()
                 continue
             if self.isActive:
@@ -75,6 +77,7 @@ class Trap(QLabel):
                 self.Trap = False
                 self.board.set_field(self.Y,self.X)
                 self.board.update_board()
+            print("pustila zamka")
             self.lock.release()
             time.sleep(0.2)
 

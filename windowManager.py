@@ -1,6 +1,5 @@
 import sys
 import threading
-
 from PyQt5 import QtGui, QtCore, QtWidgets
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
@@ -8,6 +7,7 @@ from board import *
 from gameController import *
 from appWindow import *
 from board import *
+
 
 class WindowManager(QMainWindow):
     def __init__(self, app):
@@ -48,6 +48,10 @@ class WindowManager(QMainWindow):
         thread2.daemon = True
         thread2.start()
 
+        thread3 = threading.Thread(target=gc.enemy_avatar_collision)
+        thread3.daemon = True
+        thread3.start()
+
         thread4 = threading.Thread(target=gc.simba_movement)
         thread4.daemon = True
         thread4.start()
@@ -79,7 +83,7 @@ class WindowManager(QMainWindow):
         #     thread5.stop
         #     thread6.stop
         #     ...
-        #     self.simba_points = self.simba_points + gc.simba.points
+        #    self.simba_points = self.simba_points + gc.simba.points
         #     self.simba_lives = self.simba_lives + gc.simba.lives
         #     self.nala_points = self.nala_points + gc.nala.points
         #     self.nala_lives = self.nala_lives + gc.nala.lives

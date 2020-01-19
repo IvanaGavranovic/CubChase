@@ -11,6 +11,7 @@ class Field(QGraphicsRectItem):
 
     color_name = BROWN
     image_path = None
+    footprints = None
 
     def __init__(self):
         super().__init__(0,0,FIELD_SIZE,FIELD_SIZE)
@@ -32,8 +33,19 @@ class Field(QGraphicsRectItem):
         if image in {SIMBA_GREEN, SIMBA_YELLOW, NALA_GREEN, NALA_YELLOW,
                      PUMBA_GREEN, PUMBA_YELLOW, TIMON_GREEN, TIMON_YELLOW,
                      TRAP_PASSIVE_Y, TRAP_ACTIVE_Y, TRAP_PASSIVE_Z, TRAP_ACTIVE_Z,
-                     PUMBA_G_IN_TRAP, PUMBA_Y_IN_TRAP, TIMON_G_IN_TRAP, TIMON_Y_IN_TRAP}:
-            self.image_path = image
+                     PUMBA_G_IN_TRAP, PUMBA_Y_IN_TRAP, TIMON_G_IN_TRAP, TIMON_Y_IN_TRAP,
+                     SIMBA_FOOTPRINT, NALA_FOOTPRINT}:
+            if image in {SIMBA_FOOTPRINT, NALA_FOOTPRINT}:
+                if self.footprints is None:
+                    self.image_path = image
+                    self.footprints = image
+                else:
+                    self.image_path = self.footprints
+            else:
+                self.image_path = image
+
+
+
             q = QBrush()
             q.setTextureImage(QImage(self.image_path))
             self.setBrush(q)
@@ -169,7 +181,10 @@ class Board(QGraphicsView):
         if image is not None:
             self.fields[height][width].set_image(image)
         else:
-            self.map_to_field(height, width)
+            if self.fields[height][width].footprints is not None:
+                self.fields[height][width].set_image(self.fields[height][width].footprints)
+            else:
+                self.map_to_field(height, width)
 
     def get_field(self, height: int, width: int) -> Field:
         if self.check_board_range(height, width):

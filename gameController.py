@@ -120,7 +120,7 @@ class GameController:
         if x_e == x_t and y_e == y_t:
             return True
         return False
-
+    """
     def collisionEnemyAvatar(self):
 
             while True:
@@ -136,3 +136,25 @@ class GameController:
 
                 self.lock_object.release()
                 time.sleep(0.2)
+    """
+    def enemy_avatar_collision(self):
+        simba = True
+        nala = True
+        while simba or nala:
+            self.lock_object.acquire()
+            simba = self.simba.Alive
+            nala = self.nala.Alive
+            if simba:
+                if (self.check_coords(self.simba.X,self.simba.Y,self.timon.X,self.timon.Y) or
+                        self.check_coords(self.simba.X,self.simba.Y,self.pumba.X,self.pumba.Y)):
+                    self.simba.remove_self_from_field()
+                    self.simba.update_coords(self.simba.Xbase,self.simba.Ybase)
+                    self.simba.dec_lives_and_restart()
+            if nala:
+                if (self.check_coords(self.nala.X,self.nala.Y,self.timon.X,self.timon.Y) or
+                        self.check_coords(self.nala.X, self.nala.Y, self.pumba.X, self.pumba.Y)):
+                    self.simba.remove_self_from_field()
+                    self.nala.update_coords(self.nala.Xbase,self.nala.Ybase)
+                    self.nala.dec_lives_and_restart()
+            self.lock_object.release()
+            time.sleep(0.2)

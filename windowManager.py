@@ -1,6 +1,5 @@
 import sys
 import threading
-
 from PyQt5 import QtGui, QtCore, QtWidgets
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
@@ -8,6 +7,7 @@ from board import *
 from gameController import *
 from appWindow import *
 from board import *
+
 
 class WindowManager(QMainWindow):
     def __init__(self, app):
@@ -42,7 +42,7 @@ class WindowManager(QMainWindow):
         thread2.daemon = True
         thread2.start()
 
-        thread3 = threading.Thread(target=gc.collisionEnemyAvatar)
+        thread3 = threading.Thread(target=gc.enemy_avatar_collision)
         thread3.daemon = True
         thread3.start()
 
@@ -69,6 +69,8 @@ class WindowManager(QMainWindow):
         thread9 = threading.Thread(target=gc.enemy_in_trap)
         thread9.daemon = True
         thread9.start()
+
+        #sys.exit(self.app.exec_())
 
     def nextMethod(self):
         view = QGraphicsView(self.scoreWindowScene)

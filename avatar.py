@@ -12,6 +12,8 @@ class Avatar:
 
     def __init__(self, x, y, picture_g,picture_y, board, lock_object):
         self.board = board
+        self.lives = 3
+        self.points = 0
         self.initAvatar(x, y, picture_g, picture_y, lock_object)
 
     def initAvatar(self, x, y, picture_g,picture_y, lock_object):
@@ -44,6 +46,7 @@ class Avatar:
                     self._go(DOWN)
 
     def _go(self, direction: int):
+            #self.board.updateNalaPoints(str(self.points))#Ovo pozivati svaki put kada se ostavi novi trag
             new_coord = self.get_coordinates(direction)
             self.Lock.acquire()
             next_field = self.board.get_field(new_coord[1], new_coord[0])

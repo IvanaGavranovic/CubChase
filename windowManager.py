@@ -13,16 +13,22 @@ class WindowManager(QMainWindow):
     def __init__(self, app):
         #This initializes the main window or form
         super(WindowManager, self).__init__()
-        self.setGeometry(50,50,800,550)
-        self.setWindowTitle("Scene manager")
+        self.setGeometry(0,0,845,645)#0,0,850,685
+        self.setWindowTitle("Cub Chase")
+
+        #polja koja ce se promeniti unutar startMethod-e tako sto ce se na neki nacin izvuci potrebni podaci
+        self.simba_points = 0
+        self.simba_lives = 0
+        self.nala_points = 0
+        self.nala_lives = 0
 
         #create the view
         self.app = app
         self.mainWindowScene = MainWindow(self.startMethod, self.quitMethod)
         self.changeViewMethod(QGraphicsView(self.mainWindowScene))
         #self.boardWindowScene = BoardWindow(self.nextMethod)
-        self.scoreWindowScene = ScoreWindow(self.continueMethod)
-        self.finalWindowScene = FinalWindow(self.backToMainMenuMethod)
+        self.scoreWindowScene = ScoreWindow(self.startMethod, self.continueMethod, self.simba_points, self.simba_lives, self.nala_points, self.nala_lives)
+        self.finalWindowScene = FinalWindow(self.backToMainMenuMethod, self.simba_points, self.nala_points)
         self.show()
 
     def quitMethod(self):
@@ -65,6 +71,25 @@ class WindowManager(QMainWindow):
         thread9 = threading.Thread(target=gc.enemy_in_trap)
         thread9.daemon = True
         thread9.start()
+
+        # if popunjenaSvaPolja ili lives==0:
+        #     thread1.stop
+        #     thread2.stop
+        #     thread4.stop
+        #     thread5.stop
+        #     thread6.stop
+        #     ...
+        #     self.simba_points = self.simba_points + gc.simba.points
+        #     self.simba_lives = self.simba_lives + gc.simba.lives
+        #     self.nala_points = self.nala_points + gc.nala.points
+        #     self.nala_lives = self.nala_lives + gc.nala.lives
+        #
+        #     view = QGraphicsView(self.scoreWindowScene)
+        #     self.changeViewMethod(view)
+
+        #Deo kako bi imao prikaz ScoreWindow-a i FinalWindow-a
+        view = QGraphicsView(self.scoreWindowScene)
+        self.changeViewMethod(view)
 
     def nextMethod(self):
         view = QGraphicsView(self.scoreWindowScene)

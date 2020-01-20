@@ -29,7 +29,9 @@ class Field(QGraphicsRectItem):
     def get_color(self):
         return self.color
 
-    def set_image(self, image):
+    def set_image(self, image) -> bool:
+        footprint = False
+
         if image in {SIMBA_GREEN, SIMBA_YELLOW, NALA_GREEN, NALA_YELLOW,
                      PUMBA_GREEN, PUMBA_YELLOW, TIMON_GREEN, TIMON_YELLOW,
                      TRAP_PASSIVE_Y, TRAP_ACTIVE_Y, TRAP_PASSIVE_Z, TRAP_ACTIVE_Z,
@@ -37,6 +39,7 @@ class Field(QGraphicsRectItem):
                      SIMBA_FOOTPRINT, NALA_FOOTPRINT}:
             if image in {SIMBA_FOOTPRINT, NALA_FOOTPRINT}:
                 if self.footprints is None:
+                    footprint = True
                     self.image_path = image
                     self.footprints = image
                 else:
@@ -44,11 +47,10 @@ class Field(QGraphicsRectItem):
             else:
                 self.image_path = image
 
-
-
             q = QBrush()
             q.setTextureImage(QImage(self.image_path))
             self.setBrush(q)
+        return footprint
 
     def get_image(self):
         return self.image_path
@@ -70,10 +72,7 @@ class Board(QGraphicsView):
         self.load_map()
         self.make_fields()
 
-        # self.label = QLabel()
-        # self.label.setGeometry(0, 0, 200, 30)
-        # self.label.setText("LIVES")
-        # self.scene.addWidget(self.label)
+        self.numberOfMarkedFields = 0
 
         self.labelSimba = QLabel()
         self.labelSimba.setText("Simba:")
@@ -136,20 +135,6 @@ class Board(QGraphicsView):
     def make_scene(self):
         self.scene = QGraphicsScene(0, 0, GRAPHIC_SCENE_WIDTH, GRAPHIC_SCENE_HEIGHT)
         self.scene.setBackgroundBrush(Qt.black)
-
-        # self.label = QLabel()
-        # self.label.setGeometry(10,10, 100, 10)
-        # self.label.setText("LIVES")
-        # self.scene.addWidget(self.label)
-        #
-        # qbtn = QPushButton()
-        # # qbtn.clicked.connect(self.quitMethod())
-        # qbtn.setGeometry(0, 0, 120, 20)
-        # qbtn.setStyleSheet("background-color: rgba(255, 255, 255, 255);")  # "background-color: rgba(255, 255, 255, 0);"
-        # qbtn.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
-        # # self.addWidget(qbtn)
-        # self.scene.addWidget(qbtn)
-
         self.setScene(self.scene)
 
     def load_map(self):
@@ -175,14 +160,18 @@ class Board(QGraphicsView):
                 self.map_to_field(x, y)
             y = 0
 
-    def set_field(self, height: int, width: int, image: str = None):
+    def set_field(self, height: int, width: int, image: str = None) -> int:
         if self.check_board_range(height,width) is False:
-            return
+            return 0
         if image is not None:
-            self.fields[height][width].set_image(image)
+            if self.fields[height][width].set_image(image):
+                return 1
+            return 0
         else:
             if self.fields[height][width].footprints is not None:
-                self.fields[height][width].set_image(self.fields[height][width].footprints)
+                if self.fields[height][width].set_image(self.fields[height][width].footprints):
+                    return 1
+                return 0
             else:
                 self.map_to_field(height, width)
 

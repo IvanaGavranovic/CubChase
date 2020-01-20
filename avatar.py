@@ -115,7 +115,10 @@ class Avatar:
 
     def remove_self_from_field(self):
         if self.board.get_field(self.Y, self.X).get_color_name() == YELLOW:
-            self.board.set_field(self.Y, self.X, self.PictureFootprint)
+            ret = self.board.set_field(self.Y, self.X, self.PictureFootprint)
+            self.Points += ret * 100
+            self.board.numberOfMarkedFields += ret
+
         else:
             self.board.set_field(self.Y, self.X)
 

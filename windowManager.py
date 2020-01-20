@@ -26,7 +26,6 @@ class WindowManager(QMainWindow):
         self.app = app
         self.mainWindowScene = MainWindow(self.startMethod, self.quitMethod)
         self.changeViewMethod(QGraphicsView(self.mainWindowScene))
-        #self.boardWindowScene = BoardWindow(self.nextMethod)
         self.scoreWindowScene = ScoreWindow(self.startMethod, self.continueMethod, self.simba_points, self.simba_lives, self.nala_points, self.nala_lives)
         self.finalWindowScene = FinalWindow(self.backToMainMenuMethod, self.simba_points, self.nala_points)
         self.show()
@@ -35,65 +34,53 @@ class WindowManager(QMainWindow):
         sys.exit(self.app.exec_())
 
     def startMethod(self):
-        board = Board()
-        self.changeViewMethod(board)
-        lock_object = threading.RLock()
-        gc = GameController(board, lock_object)
+        self.board = Board()
+        self.changeViewMethod(self.board)
+        self.lock_object = threading.RLock()
+        self.gc = GameController(self.board, self.lock_object)
 
-        thread1 = threading.Thread(target=gc.timon_movement)
-        thread1.daemon = True
-        thread1.start()
+        self.thread1 = threading.Thread(target=self.gc.timon_movement)
+        self.thread1.daemon = True
+        self.thread1.start()
+        self.thread2 = threading.Thread(target=self.gc.pumba_movement)
+        self.thread2.daemon = True
+        self.thread2.start()
 
-        thread2 = threading.Thread(target=gc.pumba_movement)
-        thread2.daemon = True
-        thread2.start()
+        self.thread3 = threading.Thread(target=self.gc.enemy_avatar_collision)
+        self.thread3.daemon = True
+        self.thread3.start()
 
-        thread3 = threading.Thread(target=gc.enemy_avatar_collision)
-        thread3.daemon = True
-        thread3.start()
+        self.thread4 = threading.Thread(target=self.gc.simba_movement)
+        self.thread4.daemon = True
+        self.thread4.start()
 
-        thread4 = threading.Thread(target=gc.simba_movement)
-        thread4.daemon = True
-        thread4.start()
+        self.thread5 = threading.Thread(target=self.gc.nala_movement)
+        self.thread5.daemon = True
+        self.thread5.start()
 
-        thread5 = threading.Thread(target=gc.nala_movement)
-        thread5.daemon = True
-        thread5.start()
+        self.thread6 = threading.Thread(target=self.gc.trap1_active)
+        self.thread6.daemon = True
+        self.thread6.start()
 
-        thread6 = threading.Thread(target=gc.trap1_active)
-        thread6.daemon = True
-        thread6.start()
+        self.thread7 = threading.Thread(target=self.gc.trap2_active)
+        self.thread7.daemon = True
+        self.thread7.start()
 
-        thread7 = threading.Thread(target=gc.trap2_active)
-        thread7.daemon = True
-        thread7.start()
+        self.thread8 = threading.Thread(target=self.gc.activate_trap)
+        self.thread8.daemon = True
+        self.thread8.start()
 
-        thread8 = threading.Thread(target=gc.activate_trap)
-        thread8.daemon = True
-        thread8.start()
+        self.thread9 = threading.Thread(target=self.gc.enemy_in_trap)
+        self.thread9.daemon = True
+        self.thread9.start()
 
-        thread9 = threading.Thread(target=gc.enemy_in_trap)
-        thread9.daemon = True
-        thread9.start()
+        #self.thread10 = threading.Thread(target=self.fieldAndLivesCounting)
+        #self.thread10.daemon = True
+        #self.thread10.start()
 
-        # if popunjenaSvaPolja ili lives==0:
-        #     thread1.stop
-        #     thread2.stop
-        #     thread4.stop
-        #     thread5.stop
-        #     thread6.stop
-        #     ...
-        #    self.simba_points = self.simba_points + gc.simba.points
-        #     self.simba_lives = self.simba_lives + gc.simba.lives
-        #     self.nala_points = self.nala_points + gc.nala.points
-        #     self.nala_lives = self.nala_lives + gc.nala.lives
-        #
-        #     view = QGraphicsView(self.scoreWindowScene)
-        #     self.changeViewMethod(view)
-
-        #Deo kako bi imao prikaz ScoreWindow-a i FinalWindow-a
-        view = QGraphicsView(self.scoreWindowScene)
-        self.changeViewMethod(view)
+        #Za prikaz ostalih prozora
+        #view = QGraphicsView(self.scoreWindowScene)
+        #self.changeViewMethod(view)
 
     def nextMethod(self):
         view = QGraphicsView(self.scoreWindowScene)
@@ -109,3 +96,27 @@ class WindowManager(QMainWindow):
 
     def changeViewMethod(self, view):
         self.setCentralWidget(view)
+
+    def fieldAndLivesCounting(self):
+        work = True
+        while work:
+            self.lock_object.acquire()
+            if self.board.numberOfMarkedFields == 147 or (self.gc.simba.LifeNum == 0 and self.gc.nala.LifeNum == 0):
+               self.simba_points += self.gc.simba.Points
+               self.simba_lives += self.gc.simba.LifeNum
+               self.nala_points += self.gc.nala.Points
+               self.nala_lives += self.gc.nala.LifeNum
+               work = False
+            self.lock_object.release()
+            time.sleep(3)
+        self.thread1.join()
+        self.thread2.join()
+        self.thread3.join()
+        self.thread4.join()
+        self.thread5.join()
+        self.thread6.join()
+        self.thread7.join()
+        self.thread8.join()
+        self.thread9.join()
+        view = QGraphicsView(self.scoreWindowScene)
+        self.changeViewMethod(view)

@@ -78,7 +78,7 @@ class WindowManager(QMainWindow):
         #self.thread10.daemon = True
         #self.thread10.start()
 
-        #Za prikaz ostalih prozora
+        #Deo kako bi imao prikaz ScoreWindow-a i FinalWindow-a
         #view = QGraphicsView(self.scoreWindowScene)
         #self.changeViewMethod(view)
 
@@ -109,14 +109,6 @@ class WindowManager(QMainWindow):
                work = False
             self.lock_object.release()
             time.sleep(3)
-        self.thread1.join()
-        self.thread2.join()
-        self.thread3.join()
-        self.thread4.join()
-        self.thread5.join()
-        self.thread6.join()
-        self.thread7.join()
-        self.thread8.join()
-        self.thread9.join()
+        
         view = QGraphicsView(self.scoreWindowScene)
         self.changeViewMethod(view)

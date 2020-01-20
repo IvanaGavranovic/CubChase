@@ -7,6 +7,7 @@ from measure import *
 from picture import *
 import sys
 
+
 class Field(QGraphicsRectItem):
 
     color_name = BROWN

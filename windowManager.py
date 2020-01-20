@@ -109,6 +109,6 @@ class WindowManager(QMainWindow):
                work = False
             self.lock_object.release()
             time.sleep(3)
-        
+
         view = QGraphicsView(self.scoreWindowScene)
         self.changeViewMethod(view)

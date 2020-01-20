@@ -87,6 +87,12 @@ class Avatar:
     def dec_lives_and_restart(self):
         self.Points -= 100
         self.LifeNum -= 1
+        if "nala" in self.PictureFootprint:
+            self.board.updateNalaLives(str(self.LifeNum))
+            self.board.updateNalaPoints(str(self.Points))
+        else:
+            self.board.updateSimbaLives(str(self.LifeNum))
+            self.board.updateSimbaPoints(str(self.Points))
         if self.LifeNum == 0:
             self.Alive = False
 

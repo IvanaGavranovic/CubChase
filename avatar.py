@@ -54,6 +54,8 @@ class Avatar:
                     self._go(STAY)
 
     def _go(self, direction: int):
+            #self.board.updateNalaPoints(str(self.points))#Ovo pozivati svaki put kada se ostavi novi trag
+            new_coord = self.get_coordinates(direction)
             self.Lock.acquire()
             new_coord = self.get_coordinates(direction)
             self.remove_self_from_field()

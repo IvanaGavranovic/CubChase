@@ -1,3 +1,4 @@
+from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
@@ -65,14 +66,90 @@ class Board(QGraphicsView):
         super().__init__()
         self.setGeometry(0, 0, 845, 645)
         self.setWindowTitle("Cub Chase 1.0")
-        self.make_scene()
+        self.temp = self.make_scene()
         self.load_map()
         self.make_fields()
+
+        # self.label = QLabel()
+        # self.label.setGeometry(0, 0, 200, 30)
+        # self.label.setText("LIVES")
+        # self.scene.addWidget(self.label)
+
+        self.labelSimba = QLabel()
+        self.labelSimba.setText("Simba:")
+        self.labelSimba.setGeometry(20, 0, 200, 30)
+        self.labelSimba.setFont(QtGui.QFont("Jokerman", 20, QtGui.QFont.Black))
+        self.labelSimba.setStyleSheet("color: rgba(255, 255, 255, 255); background-color: rgba(0,0,0,0%)")
+        self.scene.addWidget(self.labelSimba)
+
+        self.labelSimbaPoints = QLabel()
+        self.labelSimbaPoints.setText("0")
+        self.labelSimbaPoints.setGeometry(120, 0, 200, 30)
+        self.labelSimbaPoints.setFont(QtGui.QFont("Jokerman", 20, QtGui.QFont.Black))
+        self.labelSimbaPoints.setStyleSheet("color: rgba(255, 255, 255, 255); background-color: rgba(0,0,0,0%)")
+        self.scene.addWidget(self.labelSimbaPoints)
+
+        self.labelSimba2 = QLabel()
+        self.labelSimba2.setText("Lives:")
+        self.labelSimba2.setGeometry(220, 0, 200, 30)
+        self.labelSimba2.setFont(QtGui.QFont("Jokerman", 20, QtGui.QFont.Black))
+        self.labelSimba2.setStyleSheet("color: rgba(255, 255, 255, 255); background-color: rgba(0,0,0,0%)")
+        self.scene.addWidget(self.labelSimba2)
+
+        self.labelSimbaLives = QLabel()
+        self.labelSimbaLives.setText("3")
+        self.labelSimbaLives.setGeometry(320, 0, 200, 30)
+        self.labelSimbaLives.setFont(QtGui.QFont("Jokerman", 20, QtGui.QFont.Black))
+        self.labelSimbaLives.setStyleSheet("color: rgba(255, 255, 255, 255); background-color: rgba(0,0,0,0%)")
+        self.scene.addWidget(self.labelSimbaLives)
+
+        self.labelNala = QLabel()
+        self.labelNala.setText("Nala:")
+        self.labelNala.setGeometry(500, 0, 200, 30)
+        self.labelNala.setFont(QtGui.QFont("Jokerman", 20, QtGui.QFont.Black))
+        self.labelNala.setStyleSheet("color: rgba(255, 255, 255, 255); background-color: rgba(0,0,0,0%)")
+        self.scene.addWidget(self.labelNala)
+
+        self.labelNalaPoints = QLabel()
+        self.labelNalaPoints.setText("0")
+        self.labelNalaPoints.setGeometry(600, 0, 200, 30)
+        self.labelNalaPoints.setFont(QtGui.QFont("Jokerman", 20, QtGui.QFont.Black))
+        self.labelNalaPoints.setStyleSheet("color: rgba(255, 255, 255, 255); background-color: rgba(0,0,0,0%)")
+        self.scene.addWidget(self.labelNalaPoints)
+
+        self.labelNala2 = QLabel()
+        self.labelNala2.setText("Lives:")
+        self.labelNala2.setGeometry(700, 0, 200, 30)
+        self.labelNala2.setFont(QtGui.QFont("Jokerman", 20, QtGui.QFont.Black))
+        self.labelNala2.setStyleSheet("color: rgba(255, 255, 255, 255); background-color: rgba(0,0,0,0%)")
+        self.scene.addWidget(self.labelNala2)
+
+        self.labelNalaLives = QLabel()
+        self.labelNalaLives.setText("3")
+        self.labelNalaLives.setGeometry(800, 0, 200, 30)
+        self.labelNalaLives.setFont(QtGui.QFont("Jokerman", 20, QtGui.QFont.Black))
+        self.labelNalaLives.setStyleSheet("color: rgba(255, 255, 255, 255); background-color: rgba(0,0,0,0%)")
+        self.scene.addWidget(self.labelNalaLives)
+
         self.show()
 
     def make_scene(self):
         self.scene = QGraphicsScene(0, 0, GRAPHIC_SCENE_WIDTH, GRAPHIC_SCENE_HEIGHT)
-        self.scene.setBackgroundBrush(Qt.white)
+        self.scene.setBackgroundBrush(Qt.black)
+
+        # self.label = QLabel()
+        # self.label.setGeometry(10,10, 100, 10)
+        # self.label.setText("LIVES")
+        # self.scene.addWidget(self.label)
+        #
+        # qbtn = QPushButton()
+        # # qbtn.clicked.connect(self.quitMethod())
+        # qbtn.setGeometry(0, 0, 120, 20)
+        # qbtn.setStyleSheet("background-color: rgba(255, 255, 255, 255);")  # "background-color: rgba(255, 255, 255, 0);"
+        # qbtn.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
+        # # self.addWidget(qbtn)
+        # self.scene.addWidget(qbtn)
+
         self.setScene(self.scene)
 
     def load_map(self):
@@ -135,3 +212,15 @@ class Board(QGraphicsView):
         if 0 <= height <= BOARD_HEIGHT and 0 <= width <= BOARD_WIDTH:
             return True
         return False
+
+    def updateSimbaPoints(self, points):#simba menja board tako sto uzme getPoints sabere sa dodatnim poenima i onda pozove ovu metodu
+        self.labelSimbaPoints.setText(points)
+
+    def updateSimbaLives(self, lives):
+        self.labelSimbaLives.setText(lives)
+
+    def updateNalaPoints(self, points):  # simba menja board tako sto uzme getPoints sabere sa dodatnim poenima i onda pozove ovu metodu
+        self.labelNalaPoints.setText(points)
+
+    def updateNalaLives(self, lives):
+        self.labelNalaLives.setText(lives)

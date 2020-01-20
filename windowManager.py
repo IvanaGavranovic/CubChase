@@ -92,8 +92,8 @@ class WindowManager(QMainWindow):
         #     self.changeViewMethod(view)
 
         #Deo kako bi imao prikaz ScoreWindow-a i FinalWindow-a
-        view = QGraphicsView(self.scoreWindowScene)
-        self.changeViewMethod(view)
+        #view = QGraphicsView(self.scoreWindowScene)
+        #self.changeViewMethod(view)
 
     def nextMethod(self):
         view = QGraphicsView(self.scoreWindowScene)
